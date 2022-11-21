@@ -8,7 +8,6 @@ unsigned int convert_u(va_list args, buffer_t *output,
 		unsigned char flags, int wid, int prec, unsigned char len);
 unsigned int convert_o(va_list args, buffer_t *output,
 		unsigned char flags, int wid, int prec, unsigned char len);
-
 /**
  * convert_di - Converts an argument to a signed int and
  *              stores it to a buffer contained in a struct.
@@ -34,11 +33,9 @@ unsigned int convert_di(va_list args, buffer_t *output,
 		d = va_arg(args, int);
 	if (len == SHORT)
 		d = (short)d;
-
 	/* Handle space flag */
 	if (SPACE_FLAG == 1 && d >= 0)
 		ret += _memcpy(output, &space, 1);
-
 	if (prec <= 0 && NEG_FLAG == 0) /* Handle width  */
 	{
 		if (d == LONG_MIN)
@@ -56,28 +53,24 @@ unsigned int convert_di(va_list args, buffer_t *output,
 		/* Handle plus flag when zero flag is active */
 		if (ZERO_FLAG == 1 && PLUS_FLAG == 1 && d >= 0)
 			ret += _memcpy(output, &plus, 1);
+
 		/*Print negative sign when zero flag is active */
 		if (ZERO_FLAG == 1 && d < 0)
 			ret += _memcpy(output, &neg, 1);
-
 		pad = (ZERO_FLAG == 1) ? '0' : ' ';
 		for (wid -= count; wid > 0; wid--)
 			ret += _memcpy(output, &pad, 1);
 	}
-
-	/* Print negative sign when zero flag is not active */
+	/* Print negative sign when zero flag is not acive */
 	if (ZERO_FLAG == 0 && d < 0)
 		ret += _memcpy(output, &neg, 1);
 	/* Handle plus flag when zero flag is not active */
 	if (ZERO_FLAG == 0 && (PLUS_FLAG == 1 && d >= 0))
 		ret += _memcpy(output, &plus, 1);
-
 	if (!(d == 0 && prec == 0))
 		ret += convert_sbase(output, d, "0123456789",
 				flags, 0, prec);
-
 	ret += print_neg_width(output, ret, flags, wid);
-
 	return (ret);
 }
 
@@ -99,9 +92,7 @@ unsigned int convert_b(va_list args, buffer_t *output,
 	unsigned int num;
 
 	num = va_arg(args, unsigned int);
-
 	(void)len;
-
 	return (convert_ubase(output, num, "01", flags, wid, prec));
 }
 
@@ -130,19 +121,14 @@ unsigned int convert_o(va_list args, buffer_t *output,
 		num = va_arg(args, unsigned int);
 	if (len == SHORT)
 		num = (unsigned short)num;
-
 	if (HASH_FLAG == 1 && num != 0)
 		ret += _memcpy(output, &zero, 1);
-
 	if (!(num == 0 && prec == 0))
 		ret += convert_ubase(output, num, "01234567",
 				flags, wid, prec);
-
 	ret += print_neg_width(output, ret, flags, wid);
-
 	return (ret);
 }
-
 /**
  * convert_u - Converts an unsigned int argument to decimal and
  *               stores it to a buffer contained in a struct.
@@ -167,12 +153,9 @@ unsigned int convert_u(va_list args, buffer_t *output,
 		num = va_arg(args, unsigned int);
 	if (len == SHORT)
 		num = (unsigned short)num;
-
 	if (!(num == 0 && prec == 0))
 		ret += convert_ubase(output, num, "0123456789",
 				flags, wid, prec);
-
 	ret += print_neg_width(output, ret, flags, wid);
-
 	return (ret);
 }

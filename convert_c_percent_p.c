@@ -27,10 +27,13 @@ unsigned int convert_c(va_list args, buffer_t *output,
 
 	(void)prec;
 	(void)len;
+
 	c = va_arg(args, int);
+
 	ret += print_width(output, ret, flags, wid);
 	ret += _memcpy(output, &c, 1);
 	ret += print_neg_width(output, ret, flags, wid);
+
 	return (ret);
 }
 
@@ -55,11 +58,14 @@ unsigned int convert_percent(va_list args, buffer_t *output,
 	(void)args;
 	(void)prec;
 	(void)len;
+
 	ret += print_width(output, ret, flags, wid);
 	ret += _memcpy(output, &percent, 1);
 	ret += print_neg_width(output, ret, flags, wid);
+
 	return (ret);
 }
+
 /**
  * convert_p - Converts the address of an argument to hex and
  *             stores it to a buffer contained in a struct.
@@ -80,12 +86,15 @@ unsigned int convert_p(va_list args, buffer_t *output,
 	unsigned int ret = 0;
 
 	(void)len;
+
 	address = va_arg(args, unsigned long int);
 	if (address == '\0')
 		return (_memcpy(output, null, 5));
+
 	flags |= 32;
 	ret += convert_ubase(output, address, "0123456789abcdef",
 			flags, wid, prec);
 	ret += print_neg_width(output, ret, flags, wid);
+
 	return (ret);
 }
